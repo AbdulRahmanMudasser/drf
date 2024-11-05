@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import StudentModel
 from .serializers import StudentSerializer
 from rest_framework.renderers import JSONRenderer
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 
@@ -16,10 +16,13 @@ def model_instance(request, pk):
     serializer = StudentSerializer(student)
     
     # Render JSON
-    json_data = JSONRenderer().render(serializer.data)
+    # json_data = JSONRenderer().render(serializer.data)
     
     # Send Response to Client
-    return HttpResponse(json_data, content_type='application/json')
+    # return HttpResponse(json_data, content_type='application/json')
+    
+    # Use JsonResponse Instead of Render Json & Send Response to Client
+    return JsonResponse(serializer.data)
 
 # Query Set
 def query_set(request):
@@ -30,7 +33,10 @@ def query_set(request):
     serializer = StudentSerializer(students, many=True)
     
     # Render JSON
-    json_data = JSONRenderer().render(serializer.data)
+    # json_data = JSONRenderer().render(serializer.data)
     
     # Send Response to Client
-    return HttpResponse(json_data, content_type="application/json")
+    # return HttpResponse(json_data, content_type="application/json")
+
+    # Use JsonResponse Instead of Render Json & Send Response to Client
+    return JsonResponse(serializer.data, safe=False)
